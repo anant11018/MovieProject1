@@ -1,8 +1,6 @@
 package mmi.com.movieproject.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 import mmi.com.movieproject.R;
 import mmi.com.movieproject.pojo.popular_movies.PopularMovieData;
@@ -42,7 +38,7 @@ public class PopularMovieGridAdapter extends BaseAdapter{
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -83,7 +79,7 @@ public class PopularMovieGridAdapter extends BaseAdapter{
 
             // get the TextView from the ViewHolder and then set the text (item name) and tag (item ID) values
         viewHolder.textView.setText(popularMovieDatas.getResults().get(position).getTitle());
-        Picasso.with(ctx).load("http://image.tmdb.org/t/p/w500" +popularMovieDatas.getResults().get(position).getPosterPath()).centerCrop().into(viewHolder.imageView);
+        Picasso.with(ctx).load("http://image.tmdb.org/t/p/w500" + popularMovieDatas.getResults().get(position).getPosterPath()).noFade().fit().placeholder(R.drawable.popcorn).into(viewHolder.imageView);
         return convertView;
 
     }
