@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -37,10 +35,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static String SHARED_PREF;
     public static String LOG_TAG = "Main_Activity";
     static int count = 0;
+    private final int MODE_POPULAR = 1;
+    private final int MODE_TOP_RATED = 2;
     MovieData movieData;
     MovieData topRatedMoviesData;
     SharedPreferences sharedPreferences;
@@ -48,11 +48,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     PopularMovieGridAdapter popularMovieGridAdapter;
     PopularMovieGridAdapter topRatedGridAdapter;
     String API_KEY = "587b915f4d1e2c7af0caf242bb2f7953";
-private final int MODE_POPULAR =1;
-private final int MODE_TOP_RATED =2;
-private  int currentMode=0;
     DrawerLayout drawer;
     Toolbar toolbar;
+    private int currentMode = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,13 +60,10 @@ private  int currentMode=0;
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this,SpecificMovie.class);
-                if(currentMode==MODE_POPULAR)
-                {
+                Intent intent = new Intent(MainActivity.this, SpecificMovie.class);
+                if (currentMode == MODE_POPULAR) {
                     intent.putExtra("Movie_Obj", movieData.getMovieResults().get(position));
-                }
-                else
-                {
+                } else {
                     intent.putExtra("Movie_Obj", topRatedMoviesData.getMovieResults().get(position));
                 }
 
@@ -81,7 +77,7 @@ private  int currentMode=0;
 
         Toast.makeText(getApplicationContext(), "Hello", Toast.LENGTH_SHORT).show();
 
-        toolbar =(Toolbar)findViewById(R.id.toolbarPlus);
+        toolbar = (Toolbar) findViewById(R.id.toolbarPlus);
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -102,46 +98,41 @@ private  int currentMode=0;
         int id = item.getItemId();
 
         // Intent intent = new Intent(getApplicationContext(),TweakActivity.class);
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.most_popular:
                 gridView.setAdapter(popularMovieGridAdapter);
-                currentMode=MODE_POPULAR;
+                currentMode = MODE_POPULAR;
                 return true;
 
             case R.id.top_rated:
                 gridView.setAdapter(topRatedGridAdapter);
-                currentMode=MODE_TOP_RATED;
+                currentMode = MODE_TOP_RATED;
                 return true;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_specific_movie, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.most_popular:
                 gridView.setAdapter(popularMovieGridAdapter);
-                currentMode=MODE_POPULAR;
+                currentMode = MODE_POPULAR;
                 return true;
 
             case R.id.top_rated:
                 gridView.setAdapter(topRatedGridAdapter);
-                currentMode=MODE_TOP_RATED;
+                currentMode = MODE_TOP_RATED;
                 return true;
 
             default:
@@ -209,7 +200,7 @@ private  int currentMode=0;
                     public void run() {
                         popularMovieGridAdapter = new PopularMovieGridAdapter(getApplicationContext(), movieData);
                         gridView.setAdapter(popularMovieGridAdapter);
-                        currentMode=MODE_POPULAR;
+                        currentMode = MODE_POPULAR;
                     }
                 });
 
@@ -243,7 +234,7 @@ private  int currentMode=0;
                 Type type = new TypeToken<MovieData>() {
                 }.getType();
                 topRatedMoviesData = new Gson().fromJson(jsonData, type);
-                topRatedGridAdapter =  new PopularMovieGridAdapter(getApplicationContext(), topRatedMoviesData);
+                topRatedGridAdapter = new PopularMovieGridAdapter(getApplicationContext(), topRatedMoviesData);
                 //Log.d("toprated_movies_data", topRatedMoviesData.getMovieResults().get(0).getTitle());
                 count++;
             }

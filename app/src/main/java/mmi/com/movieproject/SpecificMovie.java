@@ -21,19 +21,21 @@ import mmi.com.movieproject.pojo.popular_movies.MovieResult;
 public class SpecificMovie extends AppCompatActivity {
     TextView textView;
     ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_movie);
-        imageView =(ImageView)findViewById(R.id.imageviewHeader);
-        textView=(TextView)findViewById(R.id.info_textview);
+        imageView = (ImageView) findViewById(R.id.imageviewHeader);
+        textView = (TextView) findViewById(R.id.info_textview);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        MovieResult movieResult = (MovieResult) getIntent().getParcelableExtra("Movie_Obj");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        MovieResult movieResult = getIntent().getParcelableExtra("Movie_Obj");
         Picasso.with(this).load("http://image.tmdb.org/t/p/w500" + movieResult.getPosterPath()).noFade().fit().placeholder(R.drawable.popcorn).into(imageView, new Callback() {
             @Override
             public void onSuccess() {
-                Palette palette = Palette.from(((BitmapDrawable)imageView.getDrawable()).getBitmap()).generate();
+                Palette palette = Palette.from(((BitmapDrawable) imageView.getDrawable()).getBitmap()).generate();
                 CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
                 collapsingToolbarLayout.setContentScrimColor(palette.getVibrantColor(Color.BLACK));
 
