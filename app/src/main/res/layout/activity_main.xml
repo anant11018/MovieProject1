@@ -6,7 +6,13 @@
     android:background="#333"
     tools:context="mmi.com.movieproject.MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarPlus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.Toolbar>
+
     <GridView
+        android:layout_below="@+id/toolbarPlus"
         android:id="@+id/grid_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

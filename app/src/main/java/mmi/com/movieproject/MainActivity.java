@@ -1,10 +1,23 @@
 package mmi.com.movieproject;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -17,30 +30,50 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 import mmi.com.movieproject.adapter.PopularMovieGridAdapter;
-import mmi.com.movieproject.pojo.popular_movies.PopularMovieData;
-import mmi.com.movieproject.pojo.top_rated_movie.TopRatedMoviesData;
+import mmi.com.movieproject.pojo.popular_movies.MovieData;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     public static String SHARED_PREF;
     public static String LOG_TAG = "Main_Activity";
     static int count = 0;
-    PopularMovieData popularMovieData;
-    TopRatedMoviesData topRatedMoviesData;
+    MovieData movieData;
+    MovieData topRatedMoviesData;
     SharedPreferences sharedPreferences;
     GridView gridView;
     PopularMovieGridAdapter popularMovieGridAdapter;
+    PopularMovieGridAdapter topRatedGridAdapter;
     String API_KEY = "587b915f4d1e2c7af0caf242bb2f7953";
-
+private final int MODE_POPULAR =1;
+private final int MODE_TOP_RATED =2;
+private  int currentMode=0;
+    DrawerLayout drawer;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.mainactivity_layout);
         gridView = (GridView) findViewById(R.id.grid_layout);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this,SpecificMovie.class);
+                if(currentMode==MODE_POPULAR)
+                {
+                    intent.putExtra("Movie_Obj", movieData.getMovieResults().get(position));
+                }
+                else
+                {
+                    intent.putExtra("Movie_Obj", topRatedMoviesData.getMovieResults().get(position));
+                }
+
+                startActivity(intent);
+            }
+        });
 
         callApi();
         getPopularDataApi();
@@ -48,6 +81,72 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "Hello", Toast.LENGTH_SHORT).show();
 
+        toolbar =(Toolbar)findViewById(R.id.toolbarPlus);
+        setSupportActionBar(toolbar);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        // Intent intent = new Intent(getApplicationContext(),TweakActivity.class);
+        switch (item.getItemId())
+        {
+            case R.id.most_popular:
+                gridView.setAdapter(popularMovieGridAdapter);
+                currentMode=MODE_POPULAR;
+                return true;
+
+            case R.id.top_rated:
+                gridView.setAdapter(topRatedGridAdapter);
+                currentMode=MODE_TOP_RATED;
+                return true;
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_specific_movie, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+
+        switch (item.getItemId())
+        {
+            case R.id.most_popular:
+                gridView.setAdapter(popularMovieGridAdapter);
+                currentMode=MODE_POPULAR;
+                return true;
+
+            case R.id.top_rated:
+                gridView.setAdapter(topRatedGridAdapter);
+                currentMode=MODE_TOP_RATED;
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void callApi() {
@@ -101,19 +200,20 @@ public class MainActivity extends AppCompatActivity {
                 count = 2;
                 String jsonData = response.body().string();
                 Log.d("jsonData_popular", jsonData);
-                Type type = new TypeToken<PopularMovieData>() {
+                Type type = new TypeToken<MovieData>() {
                 }.getType();
-                popularMovieData = new Gson().fromJson(jsonData, type);
+                movieData = new Gson().fromJson(jsonData, type);
 
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        popularMovieGridAdapter = new PopularMovieGridAdapter(getApplicationContext(), popularMovieData);
+                        popularMovieGridAdapter = new PopularMovieGridAdapter(getApplicationContext(), movieData);
                         gridView.setAdapter(popularMovieGridAdapter);
+                        currentMode=MODE_POPULAR;
                     }
                 });
 
-                Log.d("popluar_movie_data", popularMovieData.getResults().get(0).getTitle());
+//                Log.d("popluar_movie_data", movieData.getMovieResults().get(0).getTitle());
                 count++;
             }
         });
@@ -140,10 +240,11 @@ public class MainActivity extends AppCompatActivity {
                 count = 1;
                 String jsonData = response.body().string();
                 Log.d("jsonData_top_rated", jsonData);
-                Type type = new TypeToken<TopRatedMoviesData>() {
+                Type type = new TypeToken<MovieData>() {
                 }.getType();
                 topRatedMoviesData = new Gson().fromJson(jsonData, type);
-                Log.d("toprated_movies_data", topRatedMoviesData.getResults().get(0).getTitle());
+                topRatedGridAdapter =  new PopularMovieGridAdapter(getApplicationContext(), topRatedMoviesData);
+                //Log.d("toprated_movies_data", topRatedMoviesData.getMovieResults().get(0).getTitle());
                 count++;
             }
         });

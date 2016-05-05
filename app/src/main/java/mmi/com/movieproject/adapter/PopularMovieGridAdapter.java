@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import mmi.com.movieproject.R;
-import mmi.com.movieproject.pojo.popular_movies.PopularMovieData;
+import mmi.com.movieproject.pojo.popular_movies.MovieData;
 
 /**
  * Created by Ce on 5/3/2016.
@@ -19,21 +19,21 @@ import mmi.com.movieproject.pojo.popular_movies.PopularMovieData;
 public class PopularMovieGridAdapter extends BaseAdapter{
 
     private Context ctx;
-    private PopularMovieData popularMovieDatas;
-    public PopularMovieGridAdapter(Context context, PopularMovieData popularMovieDatas)
+    private MovieData movieDatas;
+    public PopularMovieGridAdapter(Context context, MovieData movieDatas)
     {
         this.ctx=context;
-        this.popularMovieDatas=popularMovieDatas;
+        this.movieDatas = movieDatas;
     }
 
     @Override
     public int getCount() {
-        return popularMovieDatas.getResults().size();
+        return movieDatas.getMovieResults().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return popularMovieDatas.getResults().get(position);
+        return movieDatas.getMovieResults().get(position);
     }
 
     @Override
@@ -78,8 +78,8 @@ public class PopularMovieGridAdapter extends BaseAdapter{
         // assign values if the object is not null
 
             // get the TextView from the ViewHolder and then set the text (item name) and tag (item ID) values
-        viewHolder.textView.setText(popularMovieDatas.getResults().get(position).getTitle());
-        Picasso.with(ctx).load("http://image.tmdb.org/t/p/w500" + popularMovieDatas.getResults().get(position).getPosterPath()).noFade().fit().placeholder(R.drawable.popcorn).into(viewHolder.imageView);
+        viewHolder.textView.setText(movieDatas.getMovieResults().get(position).getTitle());
+        Picasso.with(ctx).load("http://image.tmdb.org/t/p/w500" + movieDatas.getMovieResults().get(position).getPosterPath()).noFade().fit().placeholder(R.drawable.popcorn).into(viewHolder.imageView);
         return convertView;
 
     }
