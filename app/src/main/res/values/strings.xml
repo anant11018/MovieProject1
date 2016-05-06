@@ -107,4 +107,5 @@
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="movie_detail">Movie Detail</string>
 </resources>

@@ -100,6 +100,9 @@ public class MovieData implements Parcelable {
         this.totalPages = totalPages;
     }
 
+    public MovieData() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -108,23 +111,19 @@ public class MovieData implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.page);
-        dest.writeList(this.movieResults);
+        dest.writeTypedList(movieResults);
         dest.writeLong(this.totalResults);
         dest.writeLong(this.totalPages);
     }
 
-    public MovieData() {
-    }
-
     protected MovieData(Parcel in) {
         this.page = in.readLong();
-        this.movieResults = new ArrayList<MovieResult>();
-        in.readList(this.movieResults, MovieResult.class.getClassLoader());
+        this.movieResults = in.createTypedArrayList(MovieResult.CREATOR);
         this.totalResults = in.readLong();
         this.totalPages = in.readLong();
     }
 
-    public static final Parcelable.Creator<MovieData> CREATOR = new Parcelable.Creator<MovieData>() {
+    public static final Creator<MovieData> CREATOR = new Creator<MovieData>() {
         @Override
         public MovieData createFromParcel(Parcel source) {
             return new MovieData(source);

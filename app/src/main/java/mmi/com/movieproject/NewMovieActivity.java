@@ -90,9 +90,9 @@ public class NewMovieActivity extends AppCompatActivity {
         linearLayout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* Intent intent = new Intent(NewMovieActivity.this,PlayVideo.class);
+                Intent intent = new Intent(NewMovieActivity.this,PlayVideo.class);
                 intent.putExtra("VideoObject",movieVideoUrl);
-                startActivity(intent);*/
+                startActivity(intent);
 
             }
         });

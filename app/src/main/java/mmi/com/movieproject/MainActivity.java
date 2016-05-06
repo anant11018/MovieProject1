@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, SpecificMovie.class);
+                Intent intent = new Intent(MainActivity.this, NewMovieActivity.class);
                 if (currentMode == MODE_POPULAR) {
                     intent.putExtra("Movie_Obj", movieData.getMovieResults().get(position));
                 } else {
@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
                 startActivity(intent);
+
+      /*          Intent intent = new Intent(MainActivity.this,NewMovieActivity.class);
+                startActivity(intent);*/
             }
         });
 
