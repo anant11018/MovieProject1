@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "mmi.com.movieproject"
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -28,5 +28,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.android.support:cardview-v7:23.3.0'
+    compile 'com.skyfishjy.ripplebackground:library:1.0.1'
     compile 'com.android.support:palette-v7:23.3.0'
 }

@@ -10,8 +10,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -94,51 +92,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        // Intent intent = new Intent(getApplicationContext(),TweakActivity.class);
-        switch (item.getItemId()) {
-            case R.id.most_popular:
-                gridView.setAdapter(popularMovieGridAdapter);
-                currentMode = MODE_POPULAR;
-                return true;
-
-            case R.id.top_rated:
-                gridView.setAdapter(topRatedGridAdapter);
-                currentMode = MODE_TOP_RATED;
-                return true;
-        }
 
         drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_specific_movie, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.most_popular:
+            case R.id.nav_most_popular:
                 gridView.setAdapter(popularMovieGridAdapter);
                 currentMode = MODE_POPULAR;
                 return true;
 
-            case R.id.top_rated:
+            case R.id.nav_top_rated:
                 gridView.setAdapter(topRatedGridAdapter);
                 currentMode = MODE_TOP_RATED;
                 return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+            case R.id.nav_about:
+                startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                break;
         }
+
+
+        return false;
     }
+
 
     public void callApi() {
         OkHttpClient client = new OkHttpClient();

@@ -3,13 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="mmi.com.movieproject.SpecificMovie">
     <item
-        android:id="@+id/most_popular"
+        android:id="@+id/nav_most_popular"
         android:orderInCategory="100"
         android:title="Most Popular"
         app:showAsAction="never" />
     <item
-        android:id="@+id/top_rated"
+        android:id="@+id/nav_top_rated"
         android:orderInCategory="100"
         android:title="Top Rated"
         app:showAsAction="never" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_about"
+            android:orderInCategory="100"
+            android:title="About"
+            app:showAsAction="never" />
+    </group>
 </menu>

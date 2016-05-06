@@ -25,8 +25,11 @@
         </activity>
         <activity
             android:name=".SpecificMovie"
-            android:label="@string/title_activity_specific_movie">
-        </activity>
+            android:label="@string/title_activity_specific_movie"></activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
