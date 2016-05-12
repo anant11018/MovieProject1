@@ -1,5 +1,6 @@
 package mmi.com.movieproject;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -50,10 +52,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     private int currentMode = 0;
 
+    Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity_layout);
+       /* button=(Button)findViewById(R.id.buttonClick);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClassicDTPickerDialog classicDTPickerDialog = ClassicDTPickerDialog.newInstance(new ClassicDTPickerDialog.OnDateTimeSelectedListener() {
+                    @Override
+                    public void onDateTimeSelected(int year, int month, int dayOfMonth, int hour, int minute) {
+                        Log.e(LOG_TAG,year + " "+ month + " " + dayOfMonth + " " + hour +" "+ minute);
+                    }
+                });
+                classicDTPickerDialog.show(getSupportFragmentManager(),"");
+                ActivityManager activityManager= (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+                int memoryavailable = activityManager.getMemoryClass();
+                Log.d("memoryavailable ", String.valueOf(memoryavailable));
+            }
+        });*/
+
         gridView = (GridView) findViewById(R.id.grid_layout);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

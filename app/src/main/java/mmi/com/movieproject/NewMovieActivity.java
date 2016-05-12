@@ -62,10 +62,15 @@ public class NewMovieActivity extends AppCompatActivity {
         movieOverview= (TextView) findViewById(R.id.movie_overview);
         linearLayout1 =(LinearLayout)findViewById(R.id.linearlayout1);
         linearLayout2 =(LinearLayout)findViewById(R.id.linearlayout2);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         movieResult = getIntent().getParcelableExtra("Movie_Obj");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.movie_name);
+        toolbar.setTitle(movieResult.getTitle());
+        setSupportActionBar(toolbar);
+
+
+
         releaseDateTextview.setText(movieResult.getReleaseDate());
         movieDurationTimeTextView.setText("3 hours 29 mins");
         movieRatingTextview.setText(movieResult.getVoteAverage() + "/" + 10);

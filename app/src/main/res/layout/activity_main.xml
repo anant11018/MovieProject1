@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></android.support.v7.widget.Toolbar>
 
+
     <GridView
         android:layout_below="@+id/toolbarPlus"
         android:id="@+id/grid_layout"
@@ -19,5 +20,11 @@
         android:horizontalSpacing="2dp"
         android:numColumns="auto_fit"
         android:verticalSpacing="5dp" />
+
+<!--    <Button
+        android:id="@+id/buttonClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="click"/>-->
 
 </RelativeLayout>

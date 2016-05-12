@@ -3,10 +3,15 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <VideoView
+<!--    <VideoView
         android:id="@+id/YoutubeVideoView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-    />
+    />-->
 
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/YoutubeVideoView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 </LinearLayout>
